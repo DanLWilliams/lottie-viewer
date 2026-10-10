@@ -36,6 +36,12 @@ NPM="$(find_npm)" || {
 }
 
 echo "Using: $NPM"
+echo "Installing dependencies (required before build)..."
 "$NPM" ci
+if [ ! -d node_modules/fflate ]; then
+  echo "fflate missing after npm ci — check package-lock.json is committed and up to date."
+  exit 1
+fi
+echo "Building..."
 "$NPM" run build
 echo "Done. Site document root should be: $(pwd)/dist"

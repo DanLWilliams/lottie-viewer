@@ -19,10 +19,46 @@
 
 .app-tagline {
   margin: 0;
-  max-width: 36rem;
+  max-width: 40rem;
   color: var(--text-muted);
   font-size: 0.9375rem;
   line-height: 1.55;
+}
+
+.app-footer {
+  max-width: 1120px;
+  margin: 3rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.app-footer-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  color: var(--text-h);
+}
+
+.app-footer-lead {
+  margin: 0 0 1rem;
+  max-width: 48rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.app-footer-features {
+  margin: 0;
+  padding-left: 1.15rem;
+  max-width: 48rem;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.app-footer-features li + li {
+  margin-top: 0.25rem;
 }
 
 .layout {

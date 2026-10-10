@@ -1,6 +1,6 @@
-# Lottie Previewer
+# Free Lottie Editor
 
-Upload multiple Lottie animation JSON files and preview them in the browser with a simple carousel.
+Upload multiple Lottie animation JSON files, preview them in the browser, and edit colors for free.
 
 ## Run locally
 

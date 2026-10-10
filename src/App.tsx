@@ -134,9 +134,11 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Lottie Previewer</h1>
+        <h1>Free Lottie Editor</h1>
         <p className="app-tagline">
-          Upload multiple Lottie JSON files and browse them in a carousel.
+          Upload Lottie JSON for free—preview animations, edit colors, and
+          download updated files. No account required; everything runs in your
+          browser.
         </p>
       </header>
 
@@ -295,6 +297,23 @@ function App() {
           </div>
         </section>
       </main>
+
+      <footer className="app-footer">
+        <h2 className="app-footer-title">About Free Lottie Editor</h2>
+        <p className="app-footer-lead">
+          A free online Lottie JSON editor for designers and developers. Upload
+          Bodymovin / Lottie animation files, preview them in a carousel, tweak
+          fill and stroke colors from a shared palette or by layer, then export
+          edited JSON—without installing software or creating an account.
+        </p>
+        <ul className="app-footer-features">
+          <li>Multi-file upload and drag-and-drop</li>
+          <li>Live Lottie preview with carousel navigation</li>
+          <li>Palette, global, and layer-based color editing</li>
+          <li>Download edited Lottie JSON for use in apps and on the web</li>
+          <li>Client-side processing; files are not uploaded for editing</li>
+        </ul>
+      </footer>
     </div>
   )
 }

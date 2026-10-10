@@ -2,7 +2,12 @@ import { useCallback, useRef, useState } from 'react'
 import { LottieCarousel } from './components/LottieCarousel'
 import { LottieColorEditor } from './components/LottieColorEditor'
 import type { LottieAnimationData, LottieFile } from './types'
-import { formatFileSize, getFrameCount, readLottieFile } from './utils/lottie'
+import {
+  formatFileSize,
+  getFrameCount,
+  isLottieUploadFile,
+  readLottieUploadFile,
+} from './utils/lottie'
 import './App.css'
 
 function createId(): string {
@@ -18,15 +23,10 @@ function App() {
   const [editMode, setEditMode] = useState(false)
 
   const addFiles = useCallback(async (fileList: FileList | File[]) => {
-    const selected = Array.from(fileList).filter(
-      (f) =>
-        f.name.endsWith('.json') ||
-        f.type === 'application/json' ||
-        f.type === '',
-    )
+    const selected = Array.from(fileList).filter(isLottieUploadFile)
 
     if (selected.length === 0) {
-      setLoadErrors(['Please choose .json Lottie files.'])
+      setLoadErrors(['Please choose .json or .lottie animation files.'])
       return
     }
 
@@ -35,17 +35,20 @@ function App() {
 
     for (const file of selected) {
       try {
-        const data = structuredClone(await readLottieFile(file))
-        loaded.push({
-          id: createId(),
-          name: file.name,
-          size: file.size,
-          originalData: structuredClone(data),
-          data,
-          frameCount: getFrameCount(data),
-          dataVersion: 0,
-          isDirty: false,
-        })
+        const parsed = await readLottieUploadFile(file)
+        for (const { displayName, data } of parsed) {
+          const clone = structuredClone(data)
+          loaded.push({
+            id: createId(),
+            name: displayName,
+            size: file.size,
+            originalData: structuredClone(clone),
+            data: clone,
+            frameCount: getFrameCount(clone),
+            dataVersion: 0,
+            isDirty: false,
+          })
+        }
       } catch (e) {
         const message = e instanceof Error ? e.message : 'Invalid file'
         errors.push(`${file.name}: ${message}`)
@@ -148,9 +151,9 @@ function App() {
           <h2 className="panel-label">Input</h2>
           <h3 className="panel-title">Upload Lottie files</h3>
           <p className="panel-desc">
-            Choose one or more animation JSON files from your device, or drag
-            them onto the drop zone. Each valid file is added to the preview
-            carousel.
+            Choose Lottie JSON or dotLottie (.lottie) files from your device, or
+            drag them onto the drop zone. A .lottie archive can add several
+            animations to the carousel at once.
           </p>
 
           <div
@@ -163,7 +166,7 @@ function App() {
             onDrop={onDrop}
           >
             <span className="dropzone-label">Drag and drop</span>
-            <p>Drop one or more Lottie .json files here</p>
+            <p>Drop Lottie .json or .lottie files here</p>
             <button
               type="button"
               className="btn btn--primary"
@@ -174,7 +177,7 @@ function App() {
             <input
               ref={inputRef}
               type="file"
-              accept=".json,application/json"
+              accept=".json,.lottie,application/json,application/zip,application/zip+dotlottie"
               multiple
               hidden
               onChange={onInputChange}
@@ -311,6 +314,7 @@ function App() {
           <li>Live Lottie preview with carousel navigation</li>
           <li>Palette, global, and layer-based color editing</li>
           <li>Download edited Lottie JSON for use in apps and on the web</li>
+          <li>Supports .json and dotLottie (.lottie) uploads</li>
           <li>Client-side processing; files are not uploaded for editing</li>
         </ul>
       </footer>

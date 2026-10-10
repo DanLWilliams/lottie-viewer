@@ -31,3 +31,25 @@ export async function readLottieFile(file: File): Promise<LottieAnimationData> {
   const text = await file.text()
   return parseLottieJson(text)
 }
+
+export function isLottieUploadFile(file: File): boolean {
+  const name = file.name.toLowerCase()
+  if (name.endsWith('.json') || name.endsWith('.lottie')) return true
+  if (
+    file.type === 'application/json' ||
+    file.type === 'application/zip+dotlottie'
+  ) {
+    return true
+  }
+  return false
+}
+
+export async function readLottieUploadFile(
+  file: File,
+): Promise<{ displayName: string; data: LottieAnimationData }[]> {
+  if (file.name.toLowerCase().endsWith('.lottie')) {
+    const { readDotLottieFile } = await import('./dotLottie')
+    return readDotLottieFile(file)
+  }
+  return [{ displayName: file.name, data: await readLottieFile(file) }]
+}

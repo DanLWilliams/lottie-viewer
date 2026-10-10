@@ -35,7 +35,7 @@ export function LottieCarousel({ files, index, onIndexChange, compact }: Props) 
   if (!current) {
     return (
       <div className="preview-empty">
-        <p>Upload one or more Lottie JSON files to preview them here.</p>
+        <p>Upload Lottie .json or .lottie files to preview them here.</p>
       </div>
     )
   }

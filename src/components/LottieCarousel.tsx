@@ -6,9 +6,10 @@ type Props = {
   files: LottieFile[]
   index: number
   onIndexChange: (index: number) => void
+  compact?: boolean
 }
 
-export function LottieCarousel({ files, index, onIndexChange }: Props) {
+export function LottieCarousel({ files, index, onIndexChange, compact }: Props) {
   const current = files[index]
   const count = files.length
 
@@ -93,11 +94,15 @@ export function LottieCarousel({ files, index, onIndexChange }: Props) {
         </div>
       )}
 
-      {count === 1 && <p className="carousel-single-name">{current.name}</p>}
+      {!compact && count === 1 && (
+        <p className="carousel-single-name">{current.name}</p>
+      )}
 
-      <p className="preview-status preview-status--ok">
-        Lottie animation rendered successfully.
-      </p>
+      {!compact && (
+        <p className="preview-status preview-status--ok">
+          Lottie animation rendered successfully.
+        </p>
+      )}
     </div>
   )
 }

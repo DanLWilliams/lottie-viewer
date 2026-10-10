@@ -5,10 +5,11 @@ import type { ColorSwatch } from '../utils/lottieColors'
 type Props = {
   swatch: ColorSwatch
   subtitle?: string
+  compact?: boolean
   onPick: (hex: string) => void
 }
 
-export function SwatchRow({ swatch, subtitle, onPick }: Props) {
+export function SwatchRow({ swatch, subtitle, compact = false, onPick }: Props) {
   const [draftHex, setDraftHex] = useState(swatch.hex)
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export function SwatchRow({ swatch, subtitle, onPick }: Props) {
   }
 
   return (
-    <li className="swatch-row">
+    <li className={`swatch-row${compact ? ' swatch-row--compact' : ''}`}>
       <div className="swatch-row-label">
         <input
           type="color"

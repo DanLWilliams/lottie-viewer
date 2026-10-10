@@ -140,7 +140,8 @@ function App() {
         </p>
       </header>
 
-      <main className="layout">
+      <main className={`layout${editMode ? ' layout--editing' : ''}`}>
+        {!editMode && (
         <section className="panel panel--input">
           <h2 className="panel-label">Input</h2>
           <h3 className="panel-title">Upload Lottie files</h3>
@@ -242,8 +243,9 @@ function App() {
             </dl>
           )}
         </section>
+        )}
 
-        <section className="panel panel--preview">
+        <section className={`panel panel--preview${editMode ? ' panel--preview-editing' : ''}`}>
           <div className="preview-header">
             <h2 className="panel-label">Preview</h2>
             <div className="preview-header-actions">
@@ -264,26 +266,33 @@ function App() {
               )}
             </div>
           </div>
-          <h3 className="panel-title">Lottie animation</h3>
+          <h3 className="panel-title">
+            {editMode && active ? active.name : 'Lottie animation'}
+          </h3>
 
-          <div className="preview-frame">
-            <LottieCarousel
-              files={files}
-              index={activeIndex}
-              onIndexChange={setActiveIndex}
-            />
-          </div>
-
-          {editMode && active && (
-            <div className="edit-panel">
-              <h4 className="edit-panel-title">Color editor</h4>
-              <LottieColorEditor
-                file={active}
-                onChange={updateFileData}
-                onReset={resetFileData}
+          <div
+            className={`preview-workspace${editMode ? ' preview-workspace--editing' : ''}`}
+          >
+            <div className="preview-frame">
+              <LottieCarousel
+                files={files}
+                index={activeIndex}
+                onIndexChange={setActiveIndex}
+                compact={editMode}
               />
             </div>
-          )}
+
+            {editMode && active && (
+              <aside className="edit-panel" aria-label="Color editor">
+                <h4 className="edit-panel-title">Color editor</h4>
+                <LottieColorEditor
+                  file={active}
+                  onChange={updateFileData}
+                  onReset={resetFileData}
+                />
+              </aside>
+            )}
+          </div>
         </section>
       </main>
     </div>

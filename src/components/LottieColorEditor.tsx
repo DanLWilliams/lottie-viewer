@@ -158,11 +158,12 @@ export function LottieColorEditor({ file, onChange, onReset }: Props) {
                 One swatch per hex value. Changing a color updates every matching
                 fill and stroke in the file at once.
               </p>
-              <ul className="swatch-list">
+              <ul className="swatch-list swatch-list--grid">
                 {analysis.swatches.map((swatch) => (
                   <SwatchRow
                     key={swatch.id}
                     swatch={swatch}
+                    compact
                     onPick={(hex) => applySwatch(swatch, hex)}
                   />
                 ))}
@@ -176,7 +177,7 @@ export function LottieColorEditor({ file, onChange, onReset }: Props) {
                 Each color instance in the file. Adjust one without changing other
                 uses of the same hex.
               </p>
-              <ul className="swatch-list">
+              <ul className="swatch-list swatch-list--grid swatch-list--wide">
                 {analysis.refs.map((ref, index) => (
                   <SwatchRow
                     key={`${ref.path.map(String).join('/')}-${index}`}
@@ -212,11 +213,12 @@ export function LottieColorEditor({ file, onChange, onReset }: Props) {
                       >
                         {layer.name}
                       </p>
-                      <ul className="swatch-list swatch-list--nested">
+                      <ul className="swatch-list swatch-list--grid swatch-list--nested">
                         {swatches.map((swatch) => (
                           <SwatchRow
                             key={swatch.id}
                             swatch={swatch}
+                            compact
                             onPick={(hex) => applySwatch(swatch, hex)}
                           />
                         ))}
